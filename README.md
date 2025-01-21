@@ -10,3 +10,6 @@ Experiment to set up nuttx app environment.
 
 
 ## Docker Setup Notes
+Install packages required by Nuttx (https://nuttx.apache.org/docs/latest/quickstart/install.html) at the beginning of the dockerfile.
+
+Building the docker image using command `docker build -t nuttxtest:0.1 .` right now, builds without errors. 
