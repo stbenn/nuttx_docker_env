@@ -9,3 +9,9 @@ gperf automake libtool pkg-config genromfs \
 libgmp-dev libmpc-dev libmpfr-dev libisl-dev binutils-dev libelf-dev \
 libexpat1-dev gcc-multilib g++-multilib picocom u-boot-tools util-linux \
 kconfig-frontends gcc-arm-none-eabi binutils-arm-none-eabi
+
+# Need this to allow SerialMonitor VSCode extension to work inside the container
+RUN apt-get -y install udev
+
+# Need OpenOCD for debugging!
+RUN apt-get -y install openocd gdb-multiarch
