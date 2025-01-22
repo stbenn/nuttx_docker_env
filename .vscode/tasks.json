@@ -1,27 +1,20 @@
 {
   "version": "2.0.0",
   "tasks": [
-      {
-          "label": "Build NuttX",
-          "type": "cppbuild",
-          "command": "make",
-          "args" : [
-              "-C",
-              "${workspaceFolder}/nuttx",
-              "-j"
-          ]
-
-      },
-      {
-        "label": "Buildit",
-        "type": "cppbuild",
+    {
+        "label": "Build NuttX",
+        "type": "shell",
         "command": "make",
-        "args" : [
+        "args": [
             "-C",
             "${workspaceFolder}/nuttx",
             "-j"
-        ]
-      }
-
-  ]
+        ],
+        "problemMatcher": [],
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
+    }
+]
 }

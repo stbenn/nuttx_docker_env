@@ -54,7 +54,7 @@
           // "svdFile": null,
           "runToEntryPoint": "__start",
           "openOCDLaunchCommands": ["adapter speed 1000", "$_TARGETNAME configure -rtos nuttx"],
-          "preLaunchTask": "Buildit",
+          "preLaunchTask": "Build NuttX",
           "postResetCommands": ["eval \"monitor nuttx.pid_offset %d\", &((struct tcb_s *)(0))->pid",
                                  "eval \"monitor nuttx.xcpreg_offset %d\", &((struct tcb_s *)(0))->xcp.regs",
                                  "eval \"monitor nuttx.state_offset %d\", &((struct tcb_s *)(0))->task_state",

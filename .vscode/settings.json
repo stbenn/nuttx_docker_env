@@ -1,3 +1,7 @@
 {
-  "workbench.colorTheme": "Default Dark Modern"
+"workbench.colorTheme": "Default Dark Modern",
+"files.associations": {
+    "stm32_pwr.h": "c",
+    "chip.h": "c"
+}
 }
