@@ -1,6 +1,16 @@
 {
-"workbench.colorTheme": "Default Dark Modern",
-"files.associations": {
+  "[makefile]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4
+  },
+  "[shellscript]": {
+    "files.eol": "\n",
+    "editor.defaultColorDecorators": "auto",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "workbench.colorTheme": "Default Dark Modern",
+  "files.associations": {
     "stm32_pwr.h": "c",
     "chip.h": "c"
 }

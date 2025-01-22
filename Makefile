@@ -6,8 +6,20 @@ DOCKER_IMAGE_VER=0.1
 init: build_image
 	@echo "Initializing Repositories..."
 
-	git submodule init
-	git submodule update
+	@git submodule init
+	@git submodule update
+
+.PHONY: build_image
+build_image:
+	docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER} .
+
+.PHONY: launch
+launch: build_image
+	@echo "Launching...."
+	@docker run --name=${PROJECT_NAME} --rm -it --privileged \
+	-v ${CURDIR}:${CURDIR} \
+	--user "$$(id -u):$$(id -g)" \
+	${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER}
 
 .PHONY: ask_reset
 ask_reset:
@@ -24,12 +36,3 @@ reset_repos: ask_reset
 	git submodule deinit -f .
 	git submodule update --init
 	@echo "\nDone resetting repos.\n"
-
-.PHONY: build_image
-build_image:
-	docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER} .
-
-.PHONY: launch
-launch: build_image
-	@echo "Launch...."
-	docker run --name=${PROJECT_NAME} --rm -it --privileged -v ${CURDIR}:${CURDIR} ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER}
