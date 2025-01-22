@@ -1,13 +1,6 @@
 FROM ubuntu:24.04
 LABEL Description="Nuttx Development Environment"
 
-ARG USER_GID
-ENV USER_GID=${USER_GID:-1000}
-ARG USER_UID
-ENV USER_UID=${USER_UID:-1000}
-ARG USER_NAME
-ENV USER_NAME=${USER_NAME:-developer}
-
 RUN apt-get update && apt-get -y install \
 build-essential \
 git \
@@ -47,11 +40,3 @@ RUN apt-get -y install udev
 
 # Need OpenOCD for debugging!
 RUN apt-get -y install openocd
-
-# Create the user with build args passed
-RUN groupadd -o --gid $USER_GID $USER_NAME \
-    && useradd -o --uid $USER_UID --gid $USER_GID -m $USER_NAME \
-    && echo $USER_NAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER_NAME \
-    && chmod 0440 /etc/sudoers.d/$USER_NAME
-
-USER $USER_NAME
