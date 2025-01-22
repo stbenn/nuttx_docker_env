@@ -18,7 +18,7 @@ build_image:
 launch: build_image
 	@echo "Launching...."
 	@docker run --name=${PROJECT_NAME} --rm -it --privileged \
-	--user "$$(id -u):$$(id -g)" \
+	--user "$$(id -u):$$(id -g)" --group-add dialout \
 	-v ${CURDIR}:${CURDIR} \
 	${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER}
 
