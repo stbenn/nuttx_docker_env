@@ -9,6 +9,22 @@ init: build_image
 	git submodule init
 	git submodule update
 
+.PHONY: ask_reset
+ask_reset:
+	@read -p "Reset will remove ALL changes from nuttx and apps repos. Continue? (y/n) " response; \
+	if [ "$$response" != "y" ]; then \
+		echo "Aborting."; \
+		exit 1; \
+	fi
+	@echo "Continuing..."
+
+.PHONY: reset_repos
+reset_repos: ask_reset
+	@echo "Resetting nuttx and apps repos to the commits specified by submodules.\n"
+	git submodule deinit -f .
+	git submodule update --init
+	@echo "\nDone resetting repos.\n"
+
 .PHONY: build_image
 build_image:
 	docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER} .
