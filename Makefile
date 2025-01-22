@@ -2,6 +2,10 @@ PROJECT_NAME=nuttx_experiment
 DOCKER_IMAGE_NAME=nuttx_env/${PROJECT_NAME}
 DOCKER_IMAGE_VER=0.1
 
+UID := $(shell id -u)
+GID := $(shell id -g)
+USERNAME := $(shell id -un)
+
 .PHONY: init
 init: build_image
 	@echo "Initializing Repositories..."
@@ -11,14 +15,18 @@ init: build_image
 
 .PHONY: build_image
 build_image:
-	docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER} .
+	docker build \
+	--build-arg USER_UID=$(UID) \
+	--build-arg USER_GID=$(GID) \
+	--build-arg USER_NAME=$(USERNAME) \
+	-t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER} .
 
 .PHONY: launch
 launch: build_image
 	@echo "Launching...."
 	@docker run --name=${PROJECT_NAME} --rm -it --privileged \
-	-v ${CURDIR}:${CURDIR} \
 	--user "$$(id -u):$$(id -g)" \
+	-v ${CURDIR}:${CURDIR} \
 	${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VER}
 
 .PHONY: ask_reset
