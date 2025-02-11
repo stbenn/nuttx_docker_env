@@ -23,3 +23,10 @@ For a Windows host machine (running WSL2):
     - Adds executable permissions to necessary scripts.
 1. `make launch` will run the docker container. Attach to the running container with VSCode using the Remote Explorer. 
     - **NOTE:** If using a USB debugger, make sure to attach to WSL prior to launching the container.
+
+### External hello in NSH
+This repo assumes you are using a Nucleo-G071RB development board through VSCode with the proper extensions installed.
+To configure nuttx to build a nuttshell with the external hello app installed, simply run `./nucleo_g071_nsh_config.sh` in the
+repo base directory. This will source the proper NSH configuration and tweak it to enable debugging and the external hello application.
+
+After configuring, hit F5 to start debugging. The `launch.json` and `tasks.json` are already setup to work with this configuration. 
