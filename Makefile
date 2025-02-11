@@ -1,6 +1,6 @@
 PROJECT_NAME=nuttx_experiment
 DOCKER_IMAGE_NAME=nuttx_env/${PROJECT_NAME}
-DOCKER_IMAGE_VER=0.1
+DOCKER_IMAGE_VER=0.2
 
 .PHONY: init
 init: build_image
