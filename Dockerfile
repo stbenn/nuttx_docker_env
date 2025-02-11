@@ -1,47 +1,61 @@
-FROM ubuntu:24.04
-LABEL Description="Nuttx Development Environment"
+################################################################
+# First build stage: to download and unpack the arm toolchain.
+################################################################
+FROM ubuntu:24.04 AS arm-toolchain
 
+RUN apt-get update -qq && apt-get install -y -qq \
+curl \
+patch \
+xz-utils
+
+# Get the arm-none-eabi toolchain directly from Arm. Along with gcc and linker,
+# contains all libraries necessary for compile. It gets copied to the final 
+# image in the final build stage. 
+RUN mkdir -p arm-none-eabi && \
+curl -s -L "https://developer.arm.com/-/media/Files/downloads/gnu/13.3.rel1/binrel/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi.tar.xz" \ 
+| tar --strip-components 1 -xJ -C arm-none-eabi
+
+################################################################
+# Final image for development
+################################################################
+FROM ubuntu:24.04
+LABEL maintainer="tbennett@2g-eng.com"
+
+# After install, clean up the cache to reduce size of image. 
+# As a result, from within the container, will need to use apt-get update before
+# any packages can be installed. Shouldn't be an issue, as all necessary 
+# packages should be installed here
 RUN apt-get update && apt-get -y install \
+sudo \
 build-essential \
 git \
-sudo \
 vim \
 bison \
 flex \
-gettext \
 texinfo \
-libncurses5-dev \
-libncursesw5-dev \
+libncurses-dev \
 xxd \
 gperf \
 automake \
 libtool \
 pkg-config \
 genromfs \
-libgmp-dev \
-libmpc-dev \
-libmpfr-dev \
-libisl-dev \
-libelf-dev \
-libexpat1-dev \
-picocom \
 u-boot-tools \
 util-linux \
 kconfig-frontends \
-binutils-dev
-
-# For version specific toolchains, important for building binarys. 
-RUN apt-get -y install \
-gcc-arm-none-eabi=15:13.2.rel1-2 \
-binutils-arm-none-eabi=2.42-1ubuntu1+23 \
+usbutils \
 gdb-multiarch=15.0.50.20240403-0ubuntu1 \
-gcc-multilib=4:13.2.0-7ubuntu1 \
-g++-multilib=4:13.2.0-7ubuntu1
+libusb-1.0-0-dev \
+udev \
+openocd \
+&& rm -rf /var/lib/apt/lists/*
 
-# Need this to allow SerialMonitor VSCode extension to work inside the container
-RUN apt-get -y install udev
+# This removes the password for sudo commands. The run command adds the user
+# to the sudo group, but need to do this as well
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# Need OpenOCD for debugging!
-RUN apt-get -y install openocd
+# Grab the toolchain from the nuttx-toolchain-arm image and add to path.
+COPY --from=arm-toolchain /arm-none-eabi/ /usr/bin/arm-none-eabi/
+ENV PATH="/usr/bin/arm-none-eabi/bin:$PATH"
 
-RUN rm -rf /var/lib/apt/lists/*
+CMD [ "/bin/bash" ]

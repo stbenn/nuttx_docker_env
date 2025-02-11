@@ -9,6 +9,10 @@
     "editor.insertSpaces": true,
     "editor.tabSize": 4
   },
+  "[kconfig]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4
+  },
   "workbench.colorTheme": "Default Dark Modern",
   "files.associations": {
     "stm32_pwr.h": "c",

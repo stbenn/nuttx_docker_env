@@ -1,0 +1,4 @@
+ifneq ($(CONFIG_EXTERNAL_APPS_HELLO_APP),)
+CONFIGURED_APPS += $(APPDIR)/external/ExternalHello
+
+endif
