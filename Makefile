@@ -9,6 +9,8 @@ init: build_image
 
 	@$(MAKE) link_apps
 
+	@chmod +x nucleo_g071_nsh_config.sh
+
 	@echo "\nProject repo initialization done!\n"
 
 .PHONY: link_apps

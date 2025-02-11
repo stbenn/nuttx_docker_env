@@ -3,6 +3,6 @@
 
 int main(int argc, char *argv[])
 {
-  printf("Hello, External world %d", EXTERNAL_HELLO_INTEGER);
+  printf("Hello, External world %d!\n", EXTERNAL_HELLO_INTEGER);
   return 0;
 }
